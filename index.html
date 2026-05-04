@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A.I.D.A. Innovation Expo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050816;
+      --panel: rgba(15, 23, 42, 0.78);
+      --cyan: #38d5ff;
+      --blue: #60a5fa;
+      --purple: #a855f7;
+      --pink: #e879f9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --glow-cyan: 0 0 30px rgba(56, 213, 255, 0.35);
+      --glow-purple: 0 0 34px rgba(168, 85, 247, 0.36);
+
+      /* Tinted liquid-glass system: same cyan/purple identity, not white glass */
+      --glass-cyan-bg: rgba(56, 213, 255, 0.105);
+      --glass-purple-bg: rgba(168, 85, 247, 0.115);
+      --glass-dark-bg: rgba(2, 6, 23, 0.46);
+      --glass-line-cyan: rgba(56, 213, 255, 0.34);
+      --glass-line-purple: rgba(168, 85, 247, 0.36);
+      --glass-highlight: rgba(255, 255, 255, 0.18);
+      --glass-inner-light: inset 0 1px 0 rgba(255,255,255,0.22),
+                           inset 0 -1px 0 rgba(56,213,255,0.10),
+                           inset 1px 0 0 rgba(255,255,255,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Exo 2", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #050816;
+      overflow-x: hidden;
+    }
+
+    /* Global fixed background image */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("aida_webpage_background.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(4px) saturate(1.12);
+      transform: scale(1.04);
+      opacity: 0.42;
+      z-index: -3;
+    }
+
+    /* Dark overlay + subtle grid */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(3, 7, 18, 0.72) 0%, rgba(5, 8, 22, 0.62) 48%, rgba(10, 3, 32, 0.72) 100%),
+        radial-gradient(circle at 18% 12%, rgba(56, 213, 255, 0.18), transparent 32%),
+        radial-gradient(circle at 78% 16%, rgba(168, 85, 247, 0.2), transparent 34%),
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 54px 54px, 54px 54px;
+      z-index: -2;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    /* =========================================================
+       TINTED LIQUID GLASS
+       Apple-like glass depth, but preserving A.I.D.A.'s cyan,
+       blue and purple palette. No white-looking glass.
+       ========================================================= */
+
+    .liquid-surface,
+    .topbar,
+    .section-nav,
+    .hero-copy,
+    .hero-visual,
+    .panel,
+    .info-card,
+    .mini-card,
+    .stat,
+    .flow-step,
+    .bubble,
+    details,
+    .essay-shell,
+    .essay-paragraph,
+    .tag,
+    .btn,
+    .nav button,
+    .section-nav button,
+    .scene-tabs button,
+    .brand-mark {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      backdrop-filter: blur(22px) saturate(175%) contrast(108%);
+      -webkit-backdrop-filter: blur(22px) saturate(175%) contrast(108%);
+      box-shadow:
+        0 18px 48px rgba(0, 0, 0, 0.36),
+        var(--glass-inner-light),
+        0 0 28px rgba(56, 213, 255, 0.08);
+    }
+
+    .topbar::before,
+    .section-nav::before,
+    .hero-copy::before,
+    .hero-visual::before,
+    .panel::before,
+    .info-card::before,
+    .mini-card::before,
+    .stat::before,
+    .flow-step::before,
+    .bubble::before,
+    details::before,
+    .essay-shell::before,
+    .essay-paragraph::before,
+    .tag::before,
+    .btn::before,
+    .nav button::before,
+    .section-nav button::before,
+    .scene-tabs button::before,
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        linear-gradient(135deg,
+          rgba(56, 213, 255, 0.17) 0%,
+          rgba(96, 165, 250, 0.07) 24%,
+          rgba(168, 85, 247, 0.10) 64%,
+          rgba(232, 121, 249, 0.08) 100%),
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,0.16), transparent 30%),
+        radial-gradient(circle at 82% 115%, rgba(56,213,255,0.18), transparent 40%);
+      opacity: 0.95;
+    }
+
+    .topbar::after,
+    .section-nav::after,
+    .hero-copy::after,
+    .hero-visual::after,
+    .panel::after,
+    .info-card::after,
+    .mini-card::after,
+    .stat::after,
+    .flow-step::after,
+    .bubble::after,
+    details::after,
+    .essay-shell::after,
+    .essay-paragraph::after,
+    .tag::after,
+    .btn::after,
+    .nav button::after,
+    .section-nav button::after,
+    .scene-tabs button::after,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      top: -95%;
+      left: -55%;
+      width: 85%;
+      height: 240%;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: -1;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.00) 24%,
+        rgba(125,211,252,0.22) 44%,
+        rgba(255,255,255,0.16) 52%,
+        rgba(192,132,252,0.18) 61%,
+        rgba(255,255,255,0.00) 78%,
+        transparent 100%);
+      transform: rotate(24deg) translateX(-34%);
+      opacity: 0.30;
+      transition:
+        transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease;
+    }
+
+    .btn:hover::after,
+    .nav button:hover::after,
+    .nav button.active::after,
+    .section-nav button:hover::after,
+    .section-nav button.active::after,
+    .scene-tabs button:hover::after,
+    .scene-tabs button.active::after,
+    .tag:hover::after,
+    .info-card:hover::after,
+    .mini-card:hover::after,
+    .stat:hover::after,
+    .flow-step:hover::after {
+      transform: rotate(24deg) translateX(105%);
+      opacity: 0.58;
+    }
+
+    .btn,
+    .nav button,
+    .section-nav button,
+    .scene-tabs button,
+    .tag,
+    .brand-mark {
+      border-color: var(--glass-line-cyan);
+      background:
+        linear-gradient(135deg, rgba(56,213,255,0.16), rgba(56,213,255,0.055) 46%, rgba(168,85,247,0.11)),
+        rgba(2, 6, 23, 0.35);
+    }
+
+    .btn.secondary,
+    .scene-tabs button,
+    .section-nav button {
+      border-color: var(--glass-line-purple);
+      background:
+        linear-gradient(135deg, rgba(168,85,247,0.17), rgba(56,213,255,0.045) 52%, rgba(168,85,247,0.10)),
+        rgba(2, 6, 23, 0.35);
+    }
+
+    .btn:hover,
+    .nav button:hover,
+    .nav button.active,
+    .section-nav button:hover,
+    .section-nav button.active,
+    .scene-tabs button:hover,
+    .scene-tabs button.active {
+      color: #fff;
+      border-color: rgba(125, 211, 252, 0.62);
+      background:
+        linear-gradient(135deg, rgba(56,213,255,0.22), rgba(96,165,250,0.10) 42%, rgba(168,85,247,0.20)),
+        rgba(2, 6, 23, 0.46);
+      box-shadow:
+        0 18px 50px rgba(0,0,0,0.38),
+        0 0 30px rgba(56,213,255,0.24),
+        0 0 42px rgba(168,85,247,0.16),
+        var(--glass-inner-light);
+      transform: translateY(-2px) scale(1.012);
+    }
+
+    .btn:active,
+    .nav button:active,
+    .section-nav button:active,
+    .scene-tabs button:active {
+      transform: translateY(0) scale(0.985);
+      box-shadow:
+        0 8px 26px rgba(0,0,0,0.34),
+        inset 0 2px 10px rgba(0,0,0,0.28),
+        var(--glass-inner-light);
+    }
+
+    .info-card:hover,
+    .mini-card:hover,
+    .stat:hover,
+    .flow-step:hover,
+    .bubble:hover,
+    details:hover {
+      border-color: rgba(56, 213, 255, 0.38);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.38),
+        0 0 34px rgba(56,213,255,0.12),
+        var(--glass-inner-light);
+      transform: translateY(-1px);
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .topbar,
+      .section-nav,
+      .hero-copy,
+      .hero-visual,
+      .panel,
+      .info-card,
+      .mini-card,
+      .stat,
+      .flow-step,
+      .bubble,
+      details,
+      .essay-shell,
+      .essay-paragraph,
+      .tag,
+      .btn,
+      .nav button,
+      .section-nav button,
+      .scene-tabs button,
+      .brand-mark {
+        background: rgba(10, 14, 35, 0.92);
+      }
+    }
+
+
+
+    body {
+      font-feature-settings: "kern" 1;
+      text-rendering: geometricPrecision;
+    }
+
+    .brand,
+    .eyebrow,
+    .panel-kicker,
+    .essay-paragraph strong,
+    .section-nav h3 {
+      letter-spacing: 0.18em;
+    }
+
+    .hero h1,
+    .panel h2,
+    .essay-shell h3 {
+      font-weight: 800;
+    }
+
+    .app-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      margin-bottom: 34px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      background: rgba(3, 7, 18, 0.76);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 14px 50px rgba(0,0,0,0.34);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(56,213,255,0.22), rgba(168,85,247,0.28));
+      border: 1px solid rgba(56,213,255,0.48);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav button {
+      color: var(--muted);
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: 180ms ease;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      color: white;
+    }
+
+    .content-section {
+      display: none;
+      animation: reveal 260ms ease both;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 28px;
+    }
+
+    .hero-copy,
+    .hero-visual,
+    .panel {
+      border: 1px solid rgba(56, 213, 255, 0.22);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(15,23,42,0.70), rgba(15,23,42,0.42)),
+        rgba(2, 6, 23, 0.38);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      padding: 46px;
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.9rem, 10vw, 8rem);
+      line-height: 0.86;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+      background: linear-gradient(90deg, #7dd3fc, #ffffff 38%, #c084fc 78%, #f0abfc);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 42px rgba(96,165,250,0.18);
+    }
+
+    .hero h2 {
+      font-size: clamp(1.22rem, 2.2vw, 1.8rem);
+      line-height: 1.2;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #f8fafc;
+    }
+
+    .hero p,
+    .intro {
+      color: var(--muted);
+      line-height: 1.72;
+      max-width: 760px;
+      font-size: 1.05rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      border: 1px solid rgba(56, 213, 255, 0.44);
+      border-radius: 999px;
+      padding: 13px 18px;
+      background: rgba(56, 213, 255, 0.12);
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 180ms ease;
+    }
+
+    .btn.secondary {
+      border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .stat {
+      padding: 16px 14px;
+      border-radius: var(--radius-md);
+      background: rgba(2, 6, 23, 0.48);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .stat strong {
+      display: block;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .hero-visual {
+      min-height: 540px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 28px;
+    }
+
+    .aida-card {
+      position: absolute;
+      inset: 24px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(168,85,247,0.22), transparent 32%),
+        radial-gradient(circle at 60% 65%, rgba(56,213,255,0.16), transparent 32%),
+        rgba(3, 7, 18, 0.46);
+      border: 1px solid rgba(96,165,250,0.2);
+    }
+
+    .hero-image-frame {
+      position: relative;
+      width: min(88%, 420px);
+      aspect-ratio: 0.72;
+      margin-bottom: -20px;
+      border-radius: 46% 46% 16% 16%;
+      overflow: hidden;
+      border: 1px solid rgba(56, 213, 255, 0.24);
+      box-shadow:
+        inset 0 0 120px rgba(168, 85, 247, 0.12),
+        0 0 44px rgba(56, 213, 255, 0.2);
+      filter: drop-shadow(0 0 32px rgba(56, 213, 255, 0.25));
+      background: rgba(17, 24, 39, 0.35);
+      z-index: 2;
+    }
+
+    .hero-aida-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .holo {
+      position: absolute;
+      border: 1px solid rgba(56,213,255,0.28);
+      background: rgba(15,23,42,0.34);
+      border-radius: 18px;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .holo.one { width: 160px; height: 92px; left: 32px; top: 58px; }
+    .holo.two { width: 178px; height: 112px; right: 28px; top: 128px; border-color: rgba(168,85,247,0.32); box-shadow: var(--glow-purple); }
+    .holo.three { width: 130px; height: 76px; right: 54px; bottom: 86px; }
+
+    .holo::before {
+      content: "";
+      display: block;
+      width: 46%;
+      height: 8px;
+      margin: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      box-shadow: 0 18px 0 rgba(255,255,255,0.12), 0 36px 0 rgba(255,255,255,0.08);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .section-nav {
+      position: sticky;
+      top: 100px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      background: rgba(3, 7, 18, 0.66);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .section-nav h3 {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin: 6px 8px 12px;
+    }
+
+    .section-nav button {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: transparent;
+      cursor: pointer;
+      transition: 180ms ease;
+      font-weight: 700;
+    }
+
+    .section-nav button:hover,
+    .section-nav button.active {
+      color: #fff;
+    }
+
+    .panel {
+      padding: 30px;
+      margin-bottom: 22px;
+    }
+
+    .panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .panel h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .accordion-grid {
+      align-items: start;
+    }
+
+    .accordion-grid .animated-details {
+      align-self: start;
+    }
+
+    .info-card,
+    .mini-card,
+    details {
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: var(--radius-lg);
+      background: rgba(2, 6, 23, 0.42);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before,
+    .mini-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(56,213,255,0.08), transparent 34%, rgba(168,85,247,0.08));
+      pointer-events: none;
+    }
+
+    .info-card > *,
+    .mini-card > * {
+      position: relative;
+    }
+
+    .info-card h3,
+    .mini-card h3,
+    details summary {
+      color: #fff;
+      font-size: 1.08rem;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li,
+    .mini-card p,
+    .mini-card li,
+    details p,
+    details li {
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    ul.clean {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    ul.clean li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    ul.clean li::before {
+      content: none;
+      color: var(--cyan);
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #dbeafe;
+      background: rgba(96, 165, 250, 0.1);
+      border: 1px solid rgba(96, 165, 250, 0.22);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    /* Animated accordion cards */
+    details {
+      padding: 0;
+      height: auto;
+      min-height: 0;
+      transition:
+        border-color 220ms ease,
+        box-shadow 220ms ease,
+        background 220ms ease;
+    }
+
+    details summary {
+      cursor: pointer;
+      list-style: none;
+      margin: 0;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: auto;
+      user-select: none;
+    }
+
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details summary::after {
+      content: "+";
+      color: var(--cyan);
+      font-size: 1.45rem;
+      line-height: 1;
+      transition: transform 260ms ease, color 220ms ease;
+    }
+
+    details.open summary::after {
+      content: "−";
+      color: var(--purple);
+      transform: rotate(180deg);
+    }
+
+    .details-body {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      padding: 0 20px;
+      transform: translateY(-8px);
+      transition:
+        max-height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        padding 300ms ease,
+        transform 300ms ease;
+    }
+
+    details.open {
+      border-color: rgba(56, 213, 255, 0.34);
+      box-shadow: 0 0 28px rgba(56, 213, 255, 0.12);
+    }
+
+    details.open .details-body {
+      max-height: var(--details-height, 700px);
+      opacity: 1;
+      padding: 0 20px 20px;
+      transform: translateY(0);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .flow-step {
+      text-align: center;
+      border: 1px solid rgba(56,213,255,0.22);
+      border-radius: 18px;
+      padding: 16px 10px;
+      background: rgba(56,213,255,0.07);
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: none;
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--purple);
+      font-size: 1.45rem;
+      z-index: 2;
+    }
+
+    .icon {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      background: rgba(168,85,247,0.12);
+      border: 1px solid rgba(168,85,247,0.3);
+      font-size: 1.25rem;
+    }
+
+    .essay-shell {
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(15,23,42,0.72), rgba(15,23,42,0.44)),
+        rgba(2, 6, 23, 0.52);
+      color: var(--text);
+      padding: 34px;
+      border: 1px solid rgba(56, 213, 255, 0.24);
+      box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        0 0 34px rgba(56,213,255,0.08);
+      backdrop-filter: blur(22px) saturate(170%);
+      -webkit-backdrop-filter: blur(22px) saturate(170%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .essay-shell h3 {
+      color: #f8fafc;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 22px rgba(56, 213, 255, 0.16);
+    }
+
+    .essay-paragraph {
+      border-left: 4px solid var(--blue);
+      padding: 16px 18px;
+      margin: 16px 0;
+      background:
+        linear-gradient(135deg, rgba(56,213,255,0.10), rgba(168,85,247,0.08)),
+        rgba(2, 6, 23, 0.38);
+      border-radius: 0 16px 16px 0;
+      border-top: 1px solid rgba(96,165,250,0.16);
+      border-right: 1px solid rgba(96,165,250,0.16);
+      border-bottom: 1px solid rgba(96,165,250,0.16);
+    }
+
+    .essay-paragraph strong {
+      display: block;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 14px rgba(56, 213, 255, 0.18);
+    }
+
+    .essay-paragraph p {
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .roleplay-stage {
+      display: grid;
+      gap: 16px;
+    }
+
+    .chat-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .speaker {
+      width: 70px;
+      height: 70px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: rgba(56,213,255,0.1);
+      border: 1px solid rgba(56,213,255,0.28);
+      font-size: 1.6rem;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .chat-row.investor .speaker {
+      background: rgba(168,85,247,0.12);
+      border-color: rgba(168,85,247,0.32);
+      box-shadow: var(--glow-purple);
+    }
+
+    .bubble {
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(2, 6, 23, 0.48);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .bubble strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .bubble p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .scene-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .scene-tabs button {
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      background: rgba(2,6,23,0.35);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .scene-tabs button.active {
+      color: white;
+    }
+
+    .scene {
+      display: none;
+    }
+
+    .scene.active {
+      display: block;
+    }
+
+    .footer {
+      margin-top: 34px;
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .footer strong {
+      display: block;
+      color: #fff;
+      font-size: clamp(1.3rem, 3vw, 2.4rem);
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, var(--cyan), #fff, var(--purple));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-grid,
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .section-nav {
+        position: relative;
+        top: 0;
+      }
+
+      .hero-copy,
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .hero-stats,
+      .flow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .topbar {
+        border-radius: 24px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .app-shell { width: min(100% - 20px, 1180px); }
+      .hero-copy, .panel { padding: 24px; }
+      .hero-stats,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-step:not(:last-child)::after {
+        content: none;
+        right: 50%;
+        top: auto;
+        bottom: -24px;
+        transform: translateX(50%);
+      }
+
+      .chat-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Lucide icon system */
+    .lucide,
+    [data-lucide] {
+      width: 1.15em;
+      height: 1.15em;
+      stroke-width: 2.15;
+      vertical-align: -0.18em;
+      color: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark .lucide {
+      width: 18px;
+      height: 18px;
+      color: #dbeafe;
+      filter: drop-shadow(0 0 8px rgba(56, 213, 255, 0.55));
+    }
+
+    .icon .lucide {
+      width: 24px;
+      height: 24px;
+      color: var(--cyan);
+      filter: drop-shadow(0 0 8px rgba(56, 213, 255, 0.38));
+    }
+
+    .speaker .lucide {
+      width: 28px;
+      height: 28px;
+      color: #dbeafe;
+      filter: drop-shadow(0 0 10px rgba(56, 213, 255, 0.45));
+    }
+
+    .chat-row.investor .speaker .lucide {
+      color: #f0abfc;
+      filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.45));
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: none;
+    }
+
+    .flow-arrow {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--purple);
+      z-index: 2;
+      display: grid;
+      place-items: center;
+    }
+
+    .flow-arrow .lucide {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2.4;
+      filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.42));
+    }
+
+    ul.clean li::before {
+      content: none;
+    }
+
+    ul.clean li .li-icon {
+      color: var(--cyan);
+      width: 1.05em;
+      height: 1.05em;
+      margin-top: 0.22em;
+      filter: drop-shadow(0 0 8px rgba(56, 213, 255, 0.32));
+    }
+
+    .footer strong .lucide {
+      width: 1em;
+      height: 1em;
+      margin-right: 0.25em;
+      color: var(--cyan);
+    }
+
+    @media (max-width: 620px) {
+      .flow-arrow {
+        right: 50%;
+        top: auto;
+        bottom: -24px;
+        transform: translateX(50%) rotate(90deg);
+      }
+    }
+
+  </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" data-target="home" aria-label="A.I.D.A. Innovation Expo home">
+        <span class="brand-mark"><i data-lucide="sparkles" aria-hidden="true"></i></span>
+        <span>A.I.D.A. Innovation Expo</span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-link active" data-target="home">Home</button>
+        <button class="nav-link" data-target="file">Official File</button>
+        <button class="nav-link" data-target="essay">Essay</button>
+        <button class="nav-link" data-target="roleplay">Role Play</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="content-section active">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">Breakthroughs: Innovation Expo</div>
+            <h1>A.I.D.A.</h1>
+            <h2>Artificially Intelligent Digital Assistant</h2>
+            <p>
+              A personal agentic artificial intelligence system designed for productivity,
+              automation, voice interaction and future immersive 2D and 3D avatars.
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn jump" data-target="file">Explore Official File</button>
+              <button class="btn secondary jump" data-target="essay">Read the Essay</button>
+              <button class="btn secondary jump" data-target="roleplay">View Role Play</button>
+            </div>
+
+            <div class="hero-stats" aria-label="A.I.D.A. key technologies">
+              <div class="stat"><strong>OpenClaw</strong><span>Agent framework</span></div>
+              <div class="stat"><strong>GPT-5.5</strong><span>Core model</span></div>
+              <div class="stat"><strong>VPS</strong><span>Hostinger hosting</span></div>
+              <div class="stat"><strong>Telegram</strong><span>Text & voice access</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="A.I.D.A. futuristic visual concept">
+            <div class="aida-card"></div>
+            <div class="holo one"></div>
+            <div class="holo two"></div>
+            <div class="holo three"></div>
+
+            <div class="hero-image-frame">
+              <img
+                src="AIDA_Close_up_2_3.png"
+                alt="A.I.D.A. visual avatar"
+                class="hero-aida-image"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-grid">
+        <aside class="section-nav" aria-label="Project sections">
+          <h3>Project sections</h3>
+          <button class="side-link active" data-target="home">Home <span>01</span></button>
+          <button class="side-link" data-target="file">Official File <span>02</span></button>
+          <button class="side-link" data-target="essay">Essay <span>03</span></button>
+          <button class="side-link" data-target="roleplay">Role Play <span>04</span></button>
+        </aside>
+
+        <div>
+          <section id="file" class="content-section">
+            <article class="panel">
+              <span class="panel-kicker">Official Record</span>
+              <h2>Official Invention File</h2>
+              <p class="intro">
+                This section presents the complete technical and creative profile of A.I.D.A.: what it is,
+                what it does, how it works, its improvement, its advantages and its possible risks.
+              </p>
+
+              <div class="grid-4" style="margin-top: 24px;">
+                <div class="info-card"><h3>Name</h3><p><strong>A.I.D.A.</strong></p></div>
+                <div class="info-card"><h3>Acronym</h3><p>Artificially Intelligent Digital Assistant.</p></div>
+                <div class="info-card"><h3>Type</h3><p>Personal artificial intelligence agent.</p></div>
+                <div class="info-card"><h3>Status</h3><p>Own personal project already used in daily life.</p></div>
+              </div>
+
+              <div class="tag-row">
+                <span class="tag">Built on OpenClaw</span>
+                <span class="tag">Powered by GPT-5.5</span>
+                <span class="tag">Hosted on Hostinger VPS</span>
+                <span class="tag">Docker container</span>
+                <span class="tag">Telegram bots</span>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="grid-2 accordion-grid">
+                <details class="animated-details">
+                  <summary>What is A.I.D.A.?</summary>
+                  <div class="details-body">
+                    <p>
+                      A.I.D.A. is a personal AI agent designed to help with daily tasks, productivity,
+                      creativity, personal organization, programming projects and decision-making support.
+                    </p>
+                    <p>
+                      At the moment, A.I.D.A. has two connected agents: A.I.D.A., the main agent,
+                      and Flow, a productivity agent.
+                    </p>
+                  </div>
+                </details>
+
+                <details class="animated-details">
+                  <summary>How does A.I.D.A. work?</summary>
+                  <div class="details-body">
+                    <p>
+                      A.I.D.A. is hosted on a Hostinger VPS inside a Docker container. It works through
+                      Telegram bots: one bot is connected to the main A.I.D.A. agent, and another bot is
+                      connected to Flow.
+                    </p>
+                    <p>
+                      The user can send text or voice messages. Then, A.I.D.A. can answer by text or with
+                      her own multilingual female voice. She can also interact with cloud services such as
+                      Gmail, Google Drive and Google Docs.
+                    </p>
+                  </div>
+                </details>
+              </div>
+
+              <div class="flow" aria-label="A.I.D.A. interaction flow">
+                <div class="flow-step"><span class="icon"><i data-lucide="user" aria-hidden="true"></i></span><strong>User</strong><span class="flow-arrow"><i data-lucide="arrow-right" aria-hidden="true"></i></span></div>
+                <div class="flow-step"><span class="icon"><i data-lucide="bot" aria-hidden="true"></i></span><strong>A.I.D.A.</strong><span class="flow-arrow"><i data-lucide="arrow-right" aria-hidden="true"></i></span></div>
+                <div class="flow-step"><span class="icon"><i data-lucide="wrench" aria-hidden="true"></i></span><strong>Tools</strong><span class="flow-arrow"><i data-lucide="arrow-right" aria-hidden="true"></i></span></div>
+                <div class="flow-step"><span class="icon"><i data-lucide="circle-check" aria-hidden="true"></i></span><strong>Results</strong></div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <span class="panel-kicker">Dual-agent system</span>
+              <h2>Current Version</h2>
+
+              <div class="grid-2">
+                <div class="mini-card">
+                  <h3>A.I.D.A. Agent</h3>
+                  <ul class="clean">
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>General conversations.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Creativity.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Reminders.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Personal support.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Daily tasks.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Decision-making support.</li>
+                  </ul>
+                </div>
+
+                <div class="mini-card">
+                  <h3>Flow Agent</h3>
+                  <ul class="clean">
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Programming.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Project work.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Application development.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Productivity tasks.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i>Work organization.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <span class="panel-kicker">Functions</span>
+              <h2>What can A.I.D.A. do?</h2>
+
+              <div class="grid-3">
+                <div class="mini-card"><h3>Communication</h3><p>Chat with the user and answer by text or voice.</p></div>
+                <div class="mini-card"><h3>Cloud tools</h3><p>Send emails and use Google Drive, Google Docs and other Google services.</p></div>
+                <div class="mini-card"><h3>Files</h3><p>Create, read, write, edit and save files.</p></div>
+                <div class="mini-card"><h3>System actions</h3><p>Run commands and perform agentic capabilities.</p></div>
+                <div class="mini-card"><h3>Creation</h3><p>Help with programming, create applications and create skills.</p></div>
+                <div class="mini-card"><h3>Support</h3><p>Organize tasks and ideas, give advice and help with creativity.</p></div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <span class="panel-kicker">New improvement</span>
+              <h2>2D Web Avatar + 3D VR Avatar</h2>
+              <p class="intro">
+                The new improvement is to give A.I.D.A. a more visual and immersive presence.
+              </p>
+
+              <div class="grid-2" style="margin-top: 18px;">
+                <div class="info-card">
+                  <h3>2D Web Avatar</h3>
+                  <p>
+                    The user will be able to talk to A.I.D.A. through a website, see her face, hear her voice,
+                    watch her mouth move while she speaks and see some facial expressions.
+                  </p>
+                </div>
+
+                <div class="info-card">
+                  <h3>3D Virtual Reality Avatar</h3>
+                  <p>
+                    In virtual reality, the user will be able to speak with A.I.D.A. and see her as a 3D
+                    character. She will be able to move, make gestures, speak and show simulated emotions.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <span class="panel-kicker">Evaluation</span>
+              <h2>Advantages and Possible Disadvantages</h2>
+
+              <div class="grid-2">
+                <div class="info-card">
+                  <h3>Advantages</h3>
+                  <ul class="clean">
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Time saving:</strong> A.I.D.A. can automate repetitive tasks and prepare work in advance.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Productivity:</strong> Flow can help with programming, applications and projects.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>24/7 availability:</strong> A.I.D.A. is available at any time with any device through Telegram.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Personalization:</strong> A.I.D.A. is adapted to the user’s needs, routines and preferences.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Natural interaction:</strong> 2D and 3D avatars make interaction more human-like.</li>
+                  </ul>
+                </div>
+
+                <div class="info-card">
+                  <h3>Possible Disadvantages</h3>
+                  <ul class="clean">
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Autonomy risks:</strong> A.I.D.A. could change a configuration or modify something incorrectly.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Privacy and security:</strong> Data protection and security must be taken seriously.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>Technical complexity:</strong> It uses agents, Telegram bots, cloud services, a VPS and Docker containers.</li>
+                    <li><i data-lucide="sparkle" class="li-icon" aria-hidden="true"></i><strong>VR requirements:</strong> The virtual reality version may require a VR headset and a powerful enough device.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <span class="panel-kicker">Originality</span>
+              <h2>Why is A.I.D.A. original?</h2>
+              <p class="intro">
+                A.I.D.A. is original because it is not just a chatbot. It is a personal agentic AI system
+                with voice, cloud tools, automation, Telegram integration and a future visual presence
+                through 2D and 3D avatars.
+              </p>
+              <p class="intro" style="margin-top: 14px;">
+                The main innovation is not only the artificial intelligence itself, but the way the user
+                interacts with it. Instead of only reading answers on a screen, the user can speak with
+                A.I.D.A., hear her voice and, in the future, see her as an expressive avatar.
+              </p>
+            </article>
+          </section>
+
+          <section id="essay" class="content-section">
+            <article class="panel">
+              <span class="panel-kicker">Formal writing</span>
+              <h2>Pros and Cons Essay</h2>
+              <p class="intro">
+                This essay discusses the advantages and disadvantages of improving A.I.D.A. with a 2D web avatar and a 3D virtual reality avatar.
+              </p>
+            </article>
+
+            <article class="essay-shell">
+              <h3>Pros and Cons Essay: A.I.D.A.</h3>
+
+              <div class="essay-paragraph">
+                <strong>Introduction</strong>
+                <p>
+                  Nowadays, it is well known that artificial intelligence assistants are becoming more important in daily life.
+                  A.I.D.A. stands for Artificially Intelligent Digital Assistant. It is my own personal artificial intelligence
+                  agent, built on OpenClaw and hosted on a VPS. This essay will discuss the advantages and disadvantages of
+                  improving A.I.D.A. with a 2D web avatar and a 3D virtual reality avatar.
+                </p>
+              </div>
+
+              <div class="essay-paragraph">
+                <strong>Advantages</strong>
+                <p>
+                  There are a number of advantages of A.I.D.A. In the first place, it saves time, since repetitive tasks can be
+                  automated by the system. Secondly, it can help with productivity, creativity, programming projects and personal
+                  organization. Furthermore, A.I.D.A. is available 24/7 through Telegram, and in the future, it will also be used
+                  through a browser and virtual reality. As a result, the interaction will become more natural and immersive.
+                </p>
+              </div>
+
+              <div class="essay-paragraph">
+                <strong>Disadvantages</strong>
+                <p>
+                  However, there are also some disadvantages. One serious drawback is that A.I.D.A. can perform agentic actions,
+                  so some configurations could be changed incorrectly. In addition, there may be privacy and security risks,
+                  since personal data and cloud services must be protected carefully.
+                </p>
+              </div>
+
+              <div class="essay-paragraph">
+                <strong>Conclusion</strong>
+                <p>
+                  In conclusion, although A.I.D.A. has some risks, it also offers many benefits related to productivity, time saving
+                  and personal assistance. All things considered, I believe that A.I.D.A. is a useful and original invention if it is
+                  used responsibly.
+                </p>
+              </div>
+            </article>
+          </section>
+
+          <section id="roleplay" class="content-section">
+            <article class="panel">
+              <span class="panel-kicker">Presentation to investors</span>
+              <h2>Role Play</h2>
+              <p class="intro">
+                This role play presents A.I.D.A. to an investor. It explains the product, answers questions,
+                gives reasons to invest and mentions possible problems.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Inventor</span>
+                <span class="tag">Investor</span>
+                <span class="tag">2–3 minutes</span>
+                <span class="tag">Product explanation</span>
+                <span class="tag">Risks and investment</span>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="scene-tabs" aria-label="Role play scenes">
+                <button class="scene-btn active" data-scene="scene-1">Scene 1: Introduction</button>
+                <button class="scene-btn" data-scene="scene-2">Scene 2: Product</button>
+                <button class="scene-btn" data-scene="scene-3">Scene 3: Improvement</button>
+                <button class="scene-btn" data-scene="scene-4">Scene 4: Investment</button>
+                <button class="scene-btn" data-scene="scene-5">Scene 5: Risks</button>
+                <button class="scene-btn" data-scene="scene-6">Scene 6: Final Goal</button>
+              </div>
+
+              <div id="scene-1" class="scene active">
+                <div class="roleplay-stage">
+                  <div class="chat-row inventor">
+                    <div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div>
+                    <div class="bubble"><strong>Inventor</strong><p>Good morning, and thank you for meeting me today. I am going to present my invention: A.I.D.A.</p></div>
+                  </div>
+                  <div class="chat-row investor">
+                    <div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div>
+                    <div class="bubble"><strong>Investor</strong><p>Good morning. What does A.I.D.A. mean?</p></div>
+                  </div>
+                  <div class="chat-row inventor">
+                    <div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div>
+                    <div class="bubble"><strong>Inventor</strong><p>A.I.D.A. stands for Artificially Intelligent Digital Assistant. It is my own personal artificial intelligence agent. It is not a product created by another company. It was built as my own project, and I already use it in my daily life.</p></div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="scene-2" class="scene">
+                <div class="roleplay-stage">
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>That sounds interesting. What exactly does A.I.D.A. do?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>A.I.D.A. helps with daily tasks, productivity, creativity, personal organization and technology projects. It can chat with me, answer by text or voice, send emails, use Google Drive and Google Docs, create files, run commands, program applications and automate repetitive tasks.</p></div></div>
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>So, is A.I.D.A. just a chatbot?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>No, it is much more than a chatbot. A.I.D.A. is an agentic AI system built on OpenClaw, powered by GPT 5.5. It is hosted on a VPS and works through Telegram bots. There are two connected agents: the main A.I.D.A. agent, used for general conversations, reminders and personal support, and Flow, which is specialized in productivity, programming and project work.</p></div></div>
+                </div>
+              </div>
+
+              <div id="scene-3" class="scene">
+                <div class="roleplay-stage">
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>What is the new improvement you want to develop?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>The new improvement is to give A.I.D.A. a visual presence. First, she will have a 2D avatar in a web browser. The user will be able to speak to her, hear her voice, see her face, watch her mouth move and see some facial expressions.</p></div></div>
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>And what about the 3D version?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>The second part of the improvement is a 3D avatar in virtual reality. In VR, users will be able to see A.I.D.A. as a 3D character. She will be able to move, speak, make gestures and show simulated emotions. This will make the experience more natural and immersive.</p></div></div>
+                </div>
+              </div>
+
+              <div id="scene-4" class="scene">
+                <div class="roleplay-stage">
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>Why should I invest in A.I.D.A.?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>You should invest in A.I.D.A. because it can save time and improve productivity. Repetitive tasks can be automated by the system, and users can have their files, ideas and projects organized by A.I.D.A. Also, it is available 24/7, so it can help whenever the user needs support.</p></div></div>
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>What makes it different from other AI assistants?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>The main difference is personalization. A.I.D.A. is not a generic AI assistant. It is adapted to the user’s needs, routines, projects and preferences. Also, the future avatar will make the interaction more human-like, because users will not only read answers, but also see and hear the assistant.</p></div></div>
+                </div>
+              </div>
+
+              <div id="scene-5" class="scene">
+                <div class="roleplay-stage">
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>Are there any possible problems?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>Yes, there are some risks. Since A.I.D.A. can perform agentic actions, a configuration could be changed incorrectly. Also, privacy and security must be taken seriously because A.I.D.A. can interact with personal data and cloud services.</p></div></div>
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>How would you reduce those risks?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>Some security limits are used to reduce risks. For example, A.I.D.A. works inside a Docker container, and access to the system can be controlled. In addition, important actions should be reviewed carefully before they are applied.</p></div></div>
+                </div>
+              </div>
+
+              <div id="scene-6" class="scene">
+                <div class="roleplay-stage">
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>I see. What is your final goal with this project?</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>My final goal is to make A.I.D.A. a more natural, useful and immersive personal AI assistant. I want users to interact with her not only through text or audio, but also through a visual avatar in a browser and in virtual reality.</p></div></div>
+                  <div class="chat-row investor"><div class="speaker"><i data-lucide="briefcase-business" aria-hidden="true"></i></div><div class="bubble"><strong>Investor</strong><p>All things considered, I think A.I.D.A. is a creative and useful invention. It has some risks, but it could become a powerful productivity tool.</p></div></div>
+                  <div class="chat-row inventor"><div class="speaker"><i data-lucide="code-2" aria-hidden="true"></i></div><div class="bubble"><strong>Inventor</strong><p>Thank you. I believe A.I.D.A. can help people save time, work better and interact with artificial intelligence in a more natural way.</p></div></div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <strong>A.I.D.A. makes artificial intelligence more personal, useful and immersive.</strong>
+      <span>Official A.I.D.A. Innovation Expo project page.</span>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const contentSections = document.querySelectorAll(".content-section");
+      const topLinks = document.querySelectorAll(".nav-link");
+      const sideLinks = document.querySelectorAll(".side-link");
+      const allSectionButtons = document.querySelectorAll(".nav-link, .side-link, .jump, .brand");
+
+      function showSection(id) {
+        contentSections.forEach(section => {
+          section.classList.toggle("active", section.id === id);
+        });
+
+        topLinks.forEach(btn => btn.classList.toggle("active", btn.dataset.target === id));
+        sideLinks.forEach(btn => btn.classList.toggle("active", btn.dataset.target === id));
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      allSectionButtons.forEach(button => {
+        button.addEventListener("click", event => {
+          event.preventDefault();
+          const target = button.dataset.target;
+          if (target) showSection(target);
+        });
+      });
+
+      const animatedDetails = document.querySelectorAll(".animated-details");
+
+      function closeAccordion(details) {
+        const body = details.querySelector(".details-body");
+        if (!body) return;
+
+        body.style.setProperty("--details-height", `${body.scrollHeight}px`);
+        details.classList.remove("open");
+
+        window.setTimeout(() => {
+          details.removeAttribute("open");
+          body.style.removeProperty("--details-height");
+        }, 360);
+      }
+
+      function openAccordion(details) {
+        const body = details.querySelector(".details-body");
+        if (!body) return;
+
+        details.setAttribute("open", "");
+        body.style.setProperty("--details-height", `${body.scrollHeight}px`);
+
+        requestAnimationFrame(() => {
+          details.classList.add("open");
+        });
+      }
+
+      animatedDetails.forEach(details => {
+        const summary = details.querySelector("summary");
+        if (!summary) return;
+
+        details.classList.remove("open");
+        details.removeAttribute("open");
+
+        summary.addEventListener("click", event => {
+          event.preventDefault();
+
+          if (details.classList.contains("open")) {
+            closeAccordion(details);
+          } else {
+            openAccordion(details);
+          }
+        });
+      });
+
+      const sceneButtons = document.querySelectorAll(".scene-btn");
+      const scenes = document.querySelectorAll(".scene");
+
+      sceneButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          sceneButtons.forEach(btn => btn.classList.remove("active"));
+          scenes.forEach(scene => scene.classList.remove("active"));
+
+          button.classList.add("active");
+          const scene = document.getElementById(button.dataset.scene);
+          if (scene) scene.classList.add("active");
+        });
+      });
+    });
+  </script>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
